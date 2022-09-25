@@ -1,6 +1,6 @@
 function saveToLocal(event) {
 	event.preventDefault();
-	//difining variable to both the entities of the UI 
+	//defining variable to both the entities of the UI 
 	const name = event.target.name.value;
 	const email = event.target.email.value;
 
@@ -32,36 +32,47 @@ function saveToLocal(event) {
 
 
 function getUserList(user) {
+	document.getElementById('name').value='';
+	document.getElementById('email').value='';
+
+	const pntNode=document.getElementById('userList');
+
+	const childNode=`<li id=${user.email}>${user.name}-${user.email}
+	<button onclick=deleteUser("${user.email}")>DeleteUser</button>
+	<button onclick=editUser('${user.name}','${user.email}')>EditUser</button>
+	</li>`;
+
+	pntNode.innerHTML=pntNode.innerHTML+childNode;
     //taking any variable to store or access the ul or li tag and insert all the node we want
-	const userList = document.getElementById("userList");
+	// const userList = document.getElementById("userList");
 
-	//taking listArr variable to store all the nodes we have already in the list
-	const listArr = Object.values(user);
+	// //taking listArr variable to store all the nodes we have already in the list
+	// const listArr = Object.values(user);
 
-	//printing all the node we have
-	console.log(`listArr --> ${listArr}`);
+	// //printing all the node we have
+	// console.log(`listArr --> ${listArr}`);
 
-	//creating the first node i.e li 
-	const li = document.createElement("li");
+	// //creating the first node i.e li 
+	// const li = document.createElement("li");
 
-	//giving id to it so that we can access it
-	li.id=user.email;
+	// //giving id to it so that we can access it
+	// li.id=user.email;
 
-	//adding to the list of li tag with the appendChild function and creating node side by side
-	li.appendChild(document.createTextNode(`${user.name}, ${user.email}`));
+	// //adding to the list of li tag with the appendChild function and creating node side by side
+	// li.appendChild(document.createTextNode(`${user.name}, ${user.email}`));
 
-    //li.appendChild(document.createTextNode(`<button onclick="deleteUser(${user.email})">Delete User</button>`));
-	li.innerHTML+=`<button onclick=deleteUser("${user.email}")>DeleteUser</button>`;
+    // //li.appendChild(document.createTextNode(`<button onclick="deleteUser(${user.email})">Delete User</button>`));
+	// li.innerHTML+=`<button onclick=deleteUser("${user.email}")>DeleteUser</button>`;
 
-	li.innerHTML+=`<button onclick=editUser('${user.name}','${user.email}')>EditUser</button>`;
+	// li.innerHTML+=`<button onclick=editUser('${user.name}','${user.email}')>EditUser</button>`;
 
-	// // const childHTML = `<li>${key}</li>`;
-	userList.appendChild(li);
+	// // // const childHTML = `<li>${key}</li>`;
+	// userList.appendChild(li);
 }
 
 function editUser(name,email){
-	name=document.getElementById('name').value;
-	email=document.getElementById('email').value;
+	document.getElementById('name').value=name;
+	document.getElementById('email').value=email;
 	deleteUser(email);
 }
 
