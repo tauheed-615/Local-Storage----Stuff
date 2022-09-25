@@ -16,10 +16,19 @@ function saveToLocal(event) {
         removeSameUser(email);
     }
 
-
+	axios
 	// Assigning details to local storage
-	localStorage.setItem(email, JSON.stringify(obj));
+	// localStorage.setItem(email, JSON.stringify(obj));
 
+	axios.post("https://crudcrud.com/api/f322ebf57e574772a34496bfb264eb/appointmentData",obj)
+	.then((response)=>{
+		getUserList(response.data);
+		console.log(response);
+	})
+	.catch((err)=>{
+		document.body.innerHTML+="<h1>Something went wrong</h1>";
+		console.log(err);
+	})
 	// Getting details from local storage
 	let getItems = JSON.parse(localStorage.getItem(email));
 	console.log(getItems);
