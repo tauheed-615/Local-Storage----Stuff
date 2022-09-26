@@ -6,6 +6,7 @@ function saveToLocal(event) {
 
 	//creating object so that we can access it
 	const obj = {
+		_id,
 		name,
 		email,
 	};
@@ -76,9 +77,9 @@ function getUserList(user) {
 
 	const pntNode=document.getElementById('userList');
 
-	const childNode=`<li id=${user.email}>${user.name}-${user.email}
-	<button onclick=deleteUser("${user.email}")>DeleteUser</button>
-	<button onclick=editUser('${user.name}','${user.email}')>EditUser</button>
+	const childNode=`<li id=${user._id}>${user.name}-${user.email}
+	<button onclick=deleteUser("${user._id}")>DeleteUser</button>
+	<button onclick=editUser('${user.name}','${user._id}')>EditUser</button>
 	</li>`;
 
 	pntNode.innerHTML=pntNode.innerHTML+childNode;
@@ -115,10 +116,17 @@ function editUser(name,email){
 	deleteUser(email);
 }
 
-function deleteUser(email){
-	console.log(email);
-	localStorage.removeItem(email);
-	removeUserFromScreen(email);
+function deleteUser(userId){
+	// console.log(userId);
+	// localStorage.removeItem(email);
+	axios.delete(`https://crudcrud.com/api/f2c419b4cb9641de9a008ce099a92b9b/appointmentData2/${userId}`)
+  .then((res)=>{
+    removeUserFromScreen(userId)
+  })
+  .catch((err)=>{
+      console.log(err)
+    })
+	removeUserFromScreen(userId);
 }
 
 function removeSameUser(email){
@@ -131,11 +139,13 @@ function removeSameUser(email){
 }
 
 
-function removeUserFromScreen(email){
+function removeUserFromScreen(userId){
 	const parentNode=document.getElementById('userList');
 	console.log(parentNode);
-	const childNodeToBeDeleted=document.getElementById(email);
+	const childNodeToBeDeleted=document.getElementById(userId);
 	console.log(childNodeToBeDeleted);
 
-	parentNode.removeChild(childNodeToBeDeleted);
+	if (childNodeToBeDeleted) {
+        parentNode.removeChild(childNodeToBeDeleted);
+    }
 }
