@@ -12,9 +12,9 @@ function saveToLocal(event) {
 
 
 	//checking whether the mail we have entred do not belong to any one else in the list already
-	if (localStorage.getItem(obj.email)!==null) {
-        removeSameUser(email);
-    }
+	// if (localStorage.getItem(obj.email)!==null) {
+    //     removeSameUser(email);
+    // }
 
 	// Assigning details to local storage
 	// localStorage.setItem(email, JSON.stringify(obj));
