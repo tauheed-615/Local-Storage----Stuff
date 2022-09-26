@@ -16,11 +16,10 @@ function saveToLocal(event) {
         removeSameUser(email);
     }
 
-	axios
 	// Assigning details to local storage
 	// localStorage.setItem(email, JSON.stringify(obj));
 
-	axios.post("https://crudcrud.com/api/f322ebf57e574772a34496bfb264eb/appointmentData",obj)
+	axios.post("https://crudcrud.com/api/f2c419b4cb9641de9a008ce099a92b9b/appointmentData2",obj)
 	.then((response)=>{
 		getUserList(response.data);
 		console.log(response);
@@ -39,10 +38,41 @@ function saveToLocal(event) {
 	// Need to ask about refresh thing
 }
 
+window.addEventListener("DOMContentLoaded", ()=>{
+	axios.get("https://crudcrud.com/api/f2c419b4cb9641de9a008ce099a92b9b/appointmentData2")
+	.then((response)=>{
+		console.log(response.data);
+		for(var i=0;i<response.data.length;i++){
+			getUserList(response.data[i]);
+		}
+	})
+	.catch((err)=>{
+		document.body.innerHTML+="<h1>Something went wrong</h1>";
+		console.log(err);
+	})
+
+
+	// const lcStObj=localStorage;
+	// const lcStKey=Object.keys(lcStObj);
+	// for (let index = 0; index < lcStKey.length; index++) {
+	// 	const key=lcStKey[index];
+	// 	const string=lcStObj[key];
+	// 	const userListObj=JSON.parse(string);
+	// 	console.log(userListObj);
+		
+	// 	getUserList(userListObj);
+	// }
+
+})
+
 
 function getUserList(user) {
 	document.getElementById('name').value='';
 	document.getElementById('email').value='';
+	// if (localStorage.getItem(user.email)!==null) {
+	// 	removeUserFromScreen(user.email);
+	// }
+
 
 	const pntNode=document.getElementById('userList');
 
@@ -94,6 +124,7 @@ function deleteUser(email){
 function removeSameUser(email){
     const parentNode=document.getElementById('userList');
     const childNodeToBeDeleted=document.getElementById(email);
+	
     if (childNodeToBeDeleted) {
         parentNode.removeChild(childNodeToBeDeleted);
     }
@@ -101,7 +132,7 @@ function removeSameUser(email){
 
 
 function removeUserFromScreen(email){
-	const  parentNode=document.getElementById('userList');
+	const parentNode=document.getElementById('userList');
 	console.log(parentNode);
 	const childNodeToBeDeleted=document.getElementById(email);
 	console.log(childNodeToBeDeleted);
