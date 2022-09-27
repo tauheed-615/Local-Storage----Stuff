@@ -3,15 +3,16 @@ function saveToLocal(event) {
 	//defining variable to both the entities of the UI 
 	const name = event.target.name.value;
 	const email = event.target.email.value;
+	// const id="new Date().getTime();"
+
 
 	//creating object so that we can access it
 	const obj = {
-		_id,
 		name,
-		email,
+		email
 	};
 
-
+// console.log(obj);
 	//checking whether the mail we have entred do not belong to any one else in the list already
 	// if (localStorage.getItem(obj.email)!==null) {
     //     removeSameUser(email);
@@ -20,27 +21,27 @@ function saveToLocal(event) {
 	// Assigning details to local storage
 	// localStorage.setItem(email, JSON.stringify(obj));
 
-	axios.post("https://crudcrud.com/api/f2c419b4cb9641de9a008ce099a92b9b/appointmentData2",obj)
+	axios.post("https://crudcrud.com/api/ab65b2c69e6c40b2a31dca2a40e76160/app",obj)
 	.then((response)=>{
 		getUserList(response.data);
-		console.log(response);
+		// console.log(response.data);
 	})
 	.catch((err)=>{
 		document.body.innerHTML+="<h1>Something went wrong</h1>";
 		console.log(err);
 	})
 	// Getting details from local storage
-	let getItems = JSON.parse(localStorage.getItem(email));
-	console.log(getItems);
+	// let getItems = JSON.parse(localStorage.getItem(email));
+	// console.log(getItems);
 
-	getUserList(getItems);
+	// getUserList(getItems);
 
 
 	// Need to ask about refresh thing
 }
 
 window.addEventListener("DOMContentLoaded", ()=>{
-	axios.get("https://crudcrud.com/api/f2c419b4cb9641de9a008ce099a92b9b/appointmentData2")
+	axios.get("https://crudcrud.com/api/ab65b2c69e6c40b2a31dca2a40e76160/app")
 	.then((response)=>{
 		console.log(response.data);
 		for(var i=0;i<response.data.length;i++){
@@ -76,10 +77,11 @@ function getUserList(user) {
 
 
 	const pntNode=document.getElementById('userList');
+	console.log(user);
 
 	const childNode=`<li id=${user._id}>${user.name}-${user.email}
 	<button onclick=deleteUser("${user._id}")>DeleteUser</button>
-	<button onclick=editUser('${user.name}','${user._id}')>EditUser</button>
+	<button onclick=editUser('${user.name}','${user.email}','${user._id}')>EditUser</button>
 	</li>`;
 
 	pntNode.innerHTML=pntNode.innerHTML+childNode;
@@ -110,16 +112,31 @@ function getUserList(user) {
 	// userList.appendChild(li);
 }
 
-function editUser(name,email){
+function editUser(name,email,id){
 	document.getElementById('name').value=name;
 	document.getElementById('email').value=email;
-	deleteUser(email);
+// 	const obj1={
+// 		name,
+// 		email
+// 	}
+// 	console.log(obj1);
+// 	axios.put(`https://crudcrud.com/api/ab65b2c69e6c40b2a31dca2a40e76160/app/${id}`,obj1)
+//   .then((response)=>{
+//     getUserList(response);
+//   })
+//   .catch((err)=>{
+//       console.log(err)
+//     })
+
+
+
+	deleteUser(id);
 }
 
 function deleteUser(userId){
 	// console.log(userId);
 	// localStorage.removeItem(email);
-	axios.delete(`https://crudcrud.com/api/f2c419b4cb9641de9a008ce099a92b9b/appointmentData2/${userId}`)
+	axios.delete(`https://crudcrud.com/api/ab65b2c69e6c40b2a31dca2a40e76160/app/${userId}`)
   .then((res)=>{
     removeUserFromScreen(userId)
   })
